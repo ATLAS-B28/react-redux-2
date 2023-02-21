@@ -4,6 +4,9 @@ import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+//load the users when app starts
+import { fetchUsers } from "./features/users/usersSlice";
+store.dispatch(fetchUsers())
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

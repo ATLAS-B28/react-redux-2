@@ -1,13 +1,14 @@
 import {useState} from "react"
 import React from 'react'
 import {useDispatch,useSelector} from "react-redux"
-import { postAdded } from "./postsSlice"
+import { addNewPost } from "./postsSlice"
 import { selectAllUsers } from "../users/usersSlice"
 const AddPostForm = () => {
     const [title,setTitle] = useState('')
     const [content,setContent]  =useState('')
     const [userId,setUserId]  =useState('')//temprory state in the component
     //and we will pass it along witht the post to the global state
+    const [addRequestStatus,setAddRequestStatus] = useState('idle')
     const users = useSelector(selectAllUsers)
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
@@ -16,17 +17,23 @@ const AddPostForm = () => {
     //benefit of using reducer and prepare is that the component
     //need not know the structure of the state it just passes it
     const dispatch = useDispatch()
+    const canSave = [title,content,userId].every(Boolean) && addRequestStatus==='idle'
     const onSavePostClicked = ()=>{
-        if(title && content){
-            //dispatch -dispatches the action of postAdded
-            dispatch(
-                postAdded(title,content,userId)
-            )
+       if(canSave){
+        try {
+            setAddRequestStatus('pending')
+            dispatch(addNewPost({title,body:content,userId})).unwrap()
             setTitle('')
             setContent('')
+            setUserId('')
+        } catch (error) {
+            console.log("faileed to save the post",error)
+        } finally {
+            setAddRequestStatus("idle")
         }
+       }
     }
-    const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+   
     const userOptions = users.map(user=>(
         <option value={user.id} key={user.id}>
             {user.name}
