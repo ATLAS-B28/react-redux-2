@@ -3,6 +3,7 @@ import React from 'react'
 import {useDispatch,useSelector} from "react-redux"
 import { addNewPost } from "./postsSlice"
 import { selectAllUsers } from "../users/usersSlice"
+
 const AddPostForm = () => {
     const [title,setTitle] = useState('')
     const [content,setContent]  =useState('')
@@ -10,6 +11,7 @@ const AddPostForm = () => {
     //and we will pass it along witht the post to the global state
     const [addRequestStatus,setAddRequestStatus] = useState('idle')
     const users = useSelector(selectAllUsers)
+
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
     const onAuthorChanged = e => setUserId(e.target.value)//the user.id value will be grabbed here
@@ -26,6 +28,7 @@ const AddPostForm = () => {
             setTitle('')
             setContent('')
             setUserId('')
+         
         } catch (error) {
             console.log("faileed to save the post",error)
         } finally {
