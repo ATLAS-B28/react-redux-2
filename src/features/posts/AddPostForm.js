@@ -3,7 +3,7 @@ import React from 'react'
 import {useDispatch,useSelector} from "react-redux"
 import { addNewPost } from "./postsSlice"
 import { selectAllUsers } from "../users/usersSlice"
-
+import { useNavigate } from "react-router-dom"
 const AddPostForm = () => {
     const [title,setTitle] = useState('')
     const [content,setContent]  =useState('')
@@ -19,6 +19,7 @@ const AddPostForm = () => {
     //benefit of using reducer and prepare is that the component
     //need not know the structure of the state it just passes it
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const canSave = [title,content,userId].every(Boolean) && addRequestStatus==='idle'
     const onSavePostClicked = ()=>{
        if(canSave){
@@ -28,7 +29,7 @@ const AddPostForm = () => {
             setTitle('')
             setContent('')
             setUserId('')
-         
+            navigate('/')
         } catch (error) {
             console.log("faileed to save the post",error)
         } finally {
