@@ -55,11 +55,8 @@ const EditPostFrom = () => {
     const onDeletePostClicked = ()=>{
         try {
             setRequestStatus('pending')
-            // eslint-disable-next-line
-            dispatch(deletePost(
-                {id:post.id}
-                )
-            ).unwarp()
+            dispatch(deletePost({ id: post.id })).unwrap()
+
             setTitle('')
             setContent('')
             setUserId('')

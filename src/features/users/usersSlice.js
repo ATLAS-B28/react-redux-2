@@ -21,4 +21,5 @@ const usersSlice = createSlice({
 })
 //also export its entire state
 export const selectAllUsers = (state)=>state.users
+export const selectUsersById  =(state,userId)=>state.users.find(user=>user.id===userId)
 export default usersSlice.reducer
